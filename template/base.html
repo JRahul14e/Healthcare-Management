@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Unified Healthcare{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #333;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        table, th, td {
+            border: 1px solid black;
+        }
+        
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        
+        nav {
+            background-color: #007BFF;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        nav a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }        
+    </style>
+    <nav>
+        {% if user.is_authenticated %}
+        {% else %}
+        <div>
+            <a>Healthcare Management System</a>
+        </div>
+        {% endif %}
+        <div>
+            <a href="/">Home</a>
+            {% if user.is_authenticated %}
+                {% if user.role == 'staff' %}
+                    <a href="{% url 'checkmatch' %}">Check Match</a>
+                    <a href="{% url 'add_patient' %}">Add Patient</a>
+                    <a href="{% url 'add_donor' %}">Add Donor</a>
+                    <a href="{% url 'organ_request' %}">Organ Request</a>
+                    <a href="{% url 'blood_request' %}">Blood Request</a>
+                    <a href="{% url 'blood_inventory' %}">Blood inventory</a>
+                    <a href="">History</a>
+                    <a href="logout">Logout</a>
+                {% elif user.role == 'admin' %}
+                    <a href="{% url 'patients_info' %}">Patient's Info</a>
+                    <a href="{% url 'donor_info' %}">Donor's Info</a>
+                    <a href="{% url 'register' %}">Add Staff/patient</a>
+                    <a href="{% url 'add_blood_group' %}">Blood Group</a>
+                    <a href="{% url 'blood_inventory' %}">Blood inventory</a>
+                    <a href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                <a href="{% url 'match_status' %}">match status</a>
+                <a href="{% url 'logout' %}">Logout</a>
+                {% endif %}
+            {% else %}
+            <a href="{% url 'login_admin' %}">Login as Admin</a>
+            <a href="{% url 'login_donor' %}">Login as Donor</a>
+            <a href="{% url 'login_patient' %}">Login as Patient</a>
+            <a href="{% url 'login_staff' %}">Login as Staff</a>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="content">
+        <div style="display: flex;justify-content: center">
+            <h1>Welcome to the Unified Healthcare Management System {% if user.is_authenticated %}-{{request.user}}{% endif %}</h1>
+        </div>
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

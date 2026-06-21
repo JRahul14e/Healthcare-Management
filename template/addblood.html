@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .container {
+        width: 50%;
+        margin: 40px auto;
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    h2, h3 {
+        text-align: center;
+        color: #333;
+    }
+    
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    label {
+        font-weight: bold;
+        margin-top: 10px;
+    }
+    
+    input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    
+    button {
+        width: 100%;
+        padding: 12px;
+        background-color: #007BFF;
+        border: none;
+        color: white;
+        font-size: 18px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: 0.3s;
+    }
+    
+    button:hover {
+        background-color:#007BFF;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background: #ffffff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    th, td {
+        padding: 12px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    th {
+        background-color: #333;
+        color: white;
+        font-weight: bold;
+    }
+    
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    tbody tr:hover {
+        background-color: #f1f1f1;
+        transition: 0.3s;
+    }
+    @media (max-width: 768px) {
+        .container {
+            width: 90%;
+        }
+    
+        input, button {
+            font-size: 14px;
+        }
+    }
+    </style>
+<div class="container">
+    <h2 class="text-center">Add Blood Group</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label for="name">Blood Group:</label>
+        <input type="text" id="name" name="name" placeholder="Enter blood group (e.g., A+, B-, O+)" required>
+        <button type="submit">Submit</button>
+    </form>
+    <h3 class="text-center">Existing Blood Groups</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Blood Group</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for blood in blood_groups %}
+            <tr>
+                <td>{{ blood.id }}</td>
+                <td>{{ blood.name }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="2" class="text-center">No blood groups available</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

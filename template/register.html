@@ -1,0 +1,148 @@
+{% extends 'Base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .inFormBackground {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 70vh;
+    }
+    
+    .circle {
+        position: absolute;
+        border-radius: 50%;
+        background-color: #6c757d;
+        opacity: 0.2;
+    }
+    
+    .circle:nth-child(1) {
+        width: 200px;
+        height: 200px;
+        top: 10%;
+        left: 15%;
+    }
+    
+    .circle:nth-child(2) {
+        width: 300px;
+        height: 300px;
+        bottom: 10%;
+        right: 10%;
+    }
+    label{
+        color: #030303;
+    }
+    .inLoginForm {
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid black ;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background-color: #ccc;
+        min-width: 800px;
+    }
+    
+    .form-columns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+    
+    .inputGroup {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+    }
+    
+    .inputGroup label {
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: black;
+    }
+    
+    .inputGroup input,select {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    section{
+        height: 440px;
+    }
+    .submitForm {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007BFF;
+        color: #ccc;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    @media (max-width: 600px) {
+        .form-columns {
+            grid-template-columns: 1fr;
+        }
+        .inFormBackground{
+            padding:0;
+            margin:0;
+        }
+        .inLoginForm{
+            width:250px;
+            margin:0;
+        }
+        .circle{
+            display:none
+        }
+    }
+
+</style>
+<div class="inFormBackground">
+    <div class="inLoginForm">
+        {% if messages %}
+        {% for message in messages %}
+            <p style="color: #ff5f5f;">{{ message }}</p>
+        {% endfor %}
+        {% endif %}
+        <form action="{% url 'register' %}" method="post">
+            {% csrf_token %}
+            <div class="form-columns">
+                <div class="inputGroup">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter Name" required>
+                </div>
+                <div class="inputGroup">
+                    <label for="mobile">Mobile</label>
+                    <input type="tel" id="mobile" name="mobile" placeholder="Enter Mobile Number" required>
+                </div>
+                <div class="inputGroup">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter Email" required>
+                </div>
+                <div class="inputGroup">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter Username" required>
+                </div>
+                <div class="inputGroup">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter Password" required>
+                </div>
+                <div class="inputGroup">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="cnfm_password" placeholder="Enter Password" required>
+                </div>
+                <div class="inputGroup">
+                    <label>Role:</label>
+                    <select name="role" required>
+                        <option >--Select--</option>
+                        <option value="staff">Staff</option>
+                        <option value="donor">Donor</option>
+                        <option value="patient">Patient</option>
+                    </select>
+                </div>
+            </div>
+            <div style="display: flex;justify-content:center;margin-top:30px">
+                <button class="submitForm" style="color:black">Register</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

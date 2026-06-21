@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    /* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Form Container */
+form {
+    width: 50%;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Form Heading */
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+/* Form Labels */
+label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+/* Form Inputs & Select */
+input, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Input Field for Numbers */
+input[type="number"] {
+    width: 100%;
+}
+
+/* Button Styling */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color:  #007BFF;
+    border: none;
+    color: white;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #007BFF;
+}
+
+@media (max-width: 768px) {
+    form {
+        width: 90%;
+    }
+
+    input, select {
+        font-size: 14px;
+    }
+
+    button {
+        font-size: 16px;
+    }
+}
+</style>
+<form method="post" action="{% url 'blood_request' %}">
+    {% csrf_token %}
+    <label for="blood_type_needed">Patient</label>
+    <select id="blood_type_needed" name="patient" required>
+        <option value="">Select</option>
+        {% for p in patient %}
+            <option value="{{ p.id }}">{{ p.user.username }}</option>
+        {% endfor %}
+    </select>
+    <label for="blood_type_needed">Blood Type Needed:</label>
+    <select id="blood_type_needed" name="blood_type_needed" required>
+        <option value="">Select</option>
+        {% for blood in blood_types %}
+            <option value="{{ blood.id }}">{{ blood.name }}</option>
+        {% endfor %}
+    </select>
+    <label for="quantity_needed">Quantity Needed (in units):</label>
+    <input type="number" id="quantity_needed" name="quantity_needed" min="1" required>
+    <button type="submit">Submit Request</button>
+</form>
+{% endblock %}

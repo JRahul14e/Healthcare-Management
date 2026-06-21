@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+.container {
+    width: 80%;
+    margin: 40px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Table Header */
+thead {
+    background-color: #007BFF;
+    color: #ffffff;
+}
+
+/* Table Cells */
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    font-weight: bold;
+}
+
+/* Alternate Row Colors */
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Hover Effect */
+tbody tr:hover {
+    background-color: #f1f1f1;
+    transition: 0.3s;
+}
+
+/* Heading */
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 8px;
+    }
+}
+</style>
+<div class="container">
+    {% if patient %}
+    <h2 class="text-center">Patients Information</h2>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Patient Name</th>
+                <th>Date of Birth</th>
+                <th>Gender</th>
+                <th>Blood Type</th>
+                <th>Chronic Conditions</th>
+                <th>Medications</th>
+                <th>Emergency Contact</th>
+                <th>Required</th>
+                <th>Last Checkup Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for patient in patient %}
+            <tr>
+                <td>{{ patient.id }}</td>
+                <td>{{ patient.user.username }}</td>
+                <td>{{ patient.date_of_birth|default_if_none:"N/A" }}</td>
+                <td>{{ patient.gender }}</td>
+                <td>{{ patient.blood_type.name }}</td>
+                <td>{{ patient.chronic_conditions|default_if_none:"None" }}</td>
+                <td>{{ patient.medications|default_if_none:"None" }}</td>
+                <td>{{ patient.emergency_contact|default_if_none:"N/A" }}</td>
+                <td>{{ patient.required|default_if_none:"N/A" }}</td>
+                <td>{{ patient.last_checkup_date|default_if_none:"N/A" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="10" class="text-center">No patients available</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% elif donor %}
+    <h2 class="text-center">Donor List</h2>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Username</th>
+                <th>Category</th>
+                <th>Blood Type</th>
+                <th>Organ</th>
+                <th>Last Donation</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for donor in donor %}
+            <tr>
+                <td>{{ donor.user.username }}</td>
+                <td>{{ donor.category.name }}</td>
+                <td>{{ donor.blood_type.name }}</td>
+                <td>{{ donor.organ|default_if_none:"N/A" }}</td>
+                <td>{{ donor.last_donation|default_if_none:"Never" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">No donors available</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="text-center">No record found</p>
+    {% endif %}
+</div>
+{% endblock %}

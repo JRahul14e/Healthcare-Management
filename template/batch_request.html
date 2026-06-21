@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center">Create Batch Request</h2>
+
+    <!-- Form to Submit Blood or Organ Request -->
+    <form method="post">
+        {% csrf_token %}
+
+        <!-- Select Patient -->
+        <label for="patient">Select Patient:</label>
+        <select id="patient" name="patient" required>
+            <option value="">Select Patient</option>
+            {% for patient in patients %}
+                <option value="{{ patient.id }}" data-required="{{ patient.required }}">
+                    {{ patient.user.username }} ({{ patient.required }})
+                </option>
+            {% endfor %}
+        </select>
+
+        <!-- Quantity Needed (Only for Blood) -->
+        <div id="blood-quantity" style="display: none;">
+            <label for="quantity">Quantity Needed (in units):</label>
+            <input type="number" id="quantity" name="quantity" min="1">
+        </div>
+
+        <button type="submit">Submit Request</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById("patient").addEventListener("change", function() {
+        var selected = this.options[this.selectedIndex];
+        var required = selected.getAttribute("data-required");
+
+        if (required.toLowerCase() === "blood") {
+            document.getElementById("blood-quantity").style.display = "block";
+        } else {
+            document.getElementById("blood-quantity").style.display = "none";
+        }
+    });
+</script>
+{% endblock %}

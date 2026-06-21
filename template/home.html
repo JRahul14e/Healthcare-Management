@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% load static %}
+{% block content %}
+<style>
+    img{
+        width: 80%;
+        height: 470px;
+        border: 1px solid red;
+    }
+</style>
+    {% if user.role == 'patient' %}
+    {% elif user.role == 'donor' %}
+    {% elif user.role == 'admin' %}
+    <h1>Admin</h1>
+    {% else %}
+    <div style="display: flex;justify-content:center">
+        <img src="{% static 'offer.jpg' %}" alt="img">
+    </div>
+    {% endif %}
+{% endblock %}

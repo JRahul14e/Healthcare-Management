@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+.container {
+    width: 50%;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading */
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Labels */
+label {
+    font-weight: bold;
+    margin-top: 10px;
+    color: #333;
+}
+
+/* Inputs and Selects */
+input, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Placeholder Styling */
+input::placeholder {
+    color: #aaa;
+}
+
+/* Button Styling */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color:#007BFF;
+    border: none;
+    color: white;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #007BFF;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+
+    input, select {
+        font-size: 14px;
+    }
+
+    button {
+        font-size: 16px;
+    }
+}
+
+</style>
+<div class="container">
+    <h2 class="text-center">Organ Request Form</h2>
+    <form method="post" action="{% url 'organ_request' %}">
+        {% csrf_token %}
+        <label for="patient">Select Patient:</label>
+        <select id="patient" name="patient" required>
+            <option value="">Select Patient</option>
+            {% for patient in patients %}
+                <option value="{{ patient.id }}">{{ patient.user.username }}</option>
+            {% endfor %}
+        </select>
+        <label for="blood_type">Blood Type:</label>
+        <select id="blood_type" name="blood_type" required>
+            <option value="">Select Blood Type</option>
+            {% for blood in blood_types %}
+                <option value="{{ blood.id }}">{{ blood.name }}</option>
+            {% endfor %}
+        </select>
+        <label for="organ_needed">Organ Needed:</label>
+        <input type="text" id="organ_needed" name="organ_needed" placeholder="Enter required organ" required>
+        <button type="submit">Submit Request</button>
+    </form>
+</div>
+{% endblock %}

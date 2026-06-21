@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center">Match Request History</h2>
+
+    {% if mtch %}
+    <table>
+        <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Donor Name</th>
+                <th>Blood Type</th>
+                <th>Organ</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for match in mtch %}
+            <tr>
+                <td>{{ match.patient.user.username }}</td>
+                <td>{{ match.donor.user.username }}</td>
+                <td>{{ match.patient.blood_type.name }}</td>
+                <td>{{ match.donor.organ|default:"N/A" }}</td>
+                <td><span class="status {{ match.status }}">{{ match.status|title }}</span></td>
+                {% if user.role == 'patient' %}
+                <td>Waiting for donor action</td>
+                {% elif user.role == 'donor' %}
+                    <td><a href="{% url 'accept' pk=match.id %}">accept</a></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="text-center">No match history available.</p>
+    {% endif %}
+</div>
+{% endblock %}
