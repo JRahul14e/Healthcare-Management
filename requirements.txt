@@ -233,3 +233,5 @@ wrapt==2.1.2
 WTForms==3.2.1
 xgboost==3.0.4
 zipp==3.23.0
+gunicorn==23.0.0
+whitenoise==6.9.0
