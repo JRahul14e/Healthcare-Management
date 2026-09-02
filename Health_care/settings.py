@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'aek*dxwuy_(&&osuwe4auf28%f#x_d96%%fi-!)to+&r6dy9-l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['.onrender.com', 'localhost', '127.0.0.1']
 
 
@@ -119,7 +119,7 @@ AUTH_USER_MODEL = 'application.User'
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS=[
-    BASE_DIR,'static'
+   os.path.join (BASE_DIR,'static')
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD='django.db.models.BigAutoField'
